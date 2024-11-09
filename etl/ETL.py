@@ -98,9 +98,7 @@ print(dimension_geography)
 
 # -----------------------------------------------------------
 dimension_time = pd.DataFrame({
-    'date': readings['reading_date'],
-    'time_id': readings['readings_id'],
-
+    'date': readings['reading_date'].unique()
 })
 
 # Desglosar la fecha en componentes adicionales si es necesario
@@ -109,8 +107,7 @@ dimension_time["month"] = dimension_time["date"].dt.month
 dimension_time["day"] = dimension_time["date"].dt.day
 dimension_time["hour"] = dimension_time["date"].dt.hour
 
-dimension_time.drop('date', axis=1, inplace=True)
-dimension_time = dimension_time.drop_duplicates()
+#dimension_time.drop('date', axis=1, inplace=True)
 
 dimension_time = actualizarTablaDimension(engine_cubo, 'time_d', dimension_time, pk='time_id')
 
@@ -132,6 +129,10 @@ hechos_df = (
     .merge(customer_addresses, left_on='customers_id', right_on='customer_id')
 )
 
+
+# Asignar time_id en hechos_df utilizando map
+hechos_df['time_id'] = readings['reading_date'].map(dimension_time.set_index('date')['time_id'])
+
 # Obtengo el precio por kWh
 price_per_kwh = services['price'].iloc[0]  # O services['price'].values[0]
 
@@ -147,7 +148,7 @@ hechos_df = pd.DataFrame({
     'customer_id': hechos_df['customers_id'],
     'serial_number': hechos_df['meters_id'],
     'location_id': hechos_df['customeraddresses_id'],
-    'time_id': hechos_df['readings_id'],
+    'time_id': hechos_df['time_id'],
 
     # Métricas
     'consumption_kwh': hechos_df['consumption_kwh'],
