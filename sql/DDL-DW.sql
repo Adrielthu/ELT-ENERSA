@@ -18,6 +18,7 @@ CREATE TABLE geography_d (
 
 CREATE TABLE time_d (
   time_id SERIAL PRIMARY KEY,
+  date TIMESTAMP NOT NULL,
   year INT NOT NULL,
   month INT NOT NULL,
   day INT NOT NULL,
