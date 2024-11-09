@@ -130,8 +130,8 @@ hechos_df = (
 )
 
 
-# Asignar time_id en hechos_df utilizando map
-hechos_df['time_id'] = readings['reading_date'].map(dimension_time.set_index('date')['time_id'])
+# Asignar time_id en hechos_df usando map
+hechos_df['time_id'] = hechos_df['reading_date'].map(dimension_time.set_index('date')['time_id'])
 
 # Obtengo el precio por kWh
 price_per_kwh = services['price'].iloc[0]  # O services['price'].values[0]
