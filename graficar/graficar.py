@@ -6,7 +6,6 @@ matplotlib.use('Agg')  # Configura matplotlib para entornos sin GUI
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
-import os
 from config import DB_CONNECTIONS
 
 app = Flask(__name__)
