@@ -7,12 +7,13 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 import os
+from config import DB_CONNECTIONS
 
 app = Flask(__name__)
 
 # Conexión segura a la base de datos
-DB_CONNECTION = os.getenv("DB_CONNECTION", "postgresql://postgres:39569071@localhost/enersa_dw")
-engine = create_engine(DB_CONNECTION)
+engine = create_engine(DB_CONNECTIONS["engine_cubo"])
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
